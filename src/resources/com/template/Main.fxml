@@ -13,8 +13,8 @@
     <children>
       <Pane layoutY="4.0" prefHeight="708.0" prefWidth="965.0" style="-fx-background-color: PURPLE;">
          <children>
-             <Button layoutX="481.0" layoutY="145.0" mnemonicParsing="false" onAction="#btnCadastrarAction" text="Cadastrar" />
-            <Button layoutX="491.0" layoutY="218.0" mnemonicParsing="false" onAction="#btnAtualizarAction" text="Editar" />
+             <Button fx:id="btnCadastrar" layoutX="481.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnCadastrarAction" text="Cadastrar" />
+            <Button fx:id="btnEditar" layoutX="491.0" layoutY="160.0" mnemonicParsing="false" onAction="#btnEditarAction" text="Editar" />
             <Label layoutX="81.0" layoutY="81.0" text="Nome" />
             <Label layoutX="78.0" layoutY="136.0" text="Gênero" />
             <Label layoutX="29.0" layoutY="172.0" prefHeight="67.0" prefWidth="137.0" text="Data de formação  (DD/MM/AAAA)" textAlignment="CENTER" wrapText="true" />
@@ -36,6 +36,7 @@
                   </TableView>
                </graphic>
             </Button>
+            <Button fx:id="btnLimpar" layoutX="488.0" layoutY="227.0" mnemonicParsing="false" onAction="#btnLimparAction" text="Limpar" />
          </children>
          <effect>
             <Bloom threshold="1.0" />

@@ -27,8 +27,9 @@ public class MainController {
     @FXML private TextField txtCidadeOrigem;
 
     @FXML private Button btnCadastrar;
-    @FXML private Button btnAtualizar;
+    @FXML private Button btnEditar;
     @FXML private Button btnExcluir;
+    @FXML private Button btnLimpar;
 
     @FXML private TableView<BandaDTO> tblBandas;
     @FXML private TableColumn<BandaDTO, Integer> colId; // Mantemos na tabela para o usuário ver o ID gerado
@@ -43,7 +44,25 @@ public class MainController {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
-        colDataFormacao.setCellValueFactory(new PropertyValueFactory<>("dataFormacao"));
+        colDataFormacao.setCellFactory(column -> new javafx.scene.control.TableCell<BandaDTO, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                    setText(null);
+                } else {
+                    BandaDTO banda = (BandaDTO) getTableRow().getItem();
+                    if (banda.getDataFormacao() != null) {
+                        setText(banda.getDataFormacao().format(
+                                DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                        ));
+                    } else {
+                        setText("");
+                    }
+                }
+            }
+        });
         colCidadeOrigem.setCellValueFactory(new PropertyValueFactory<>("cidadeOrigem"));
 
         carregarBandas();
@@ -86,7 +105,7 @@ public class MainController {
     }
 
     @FXML
-    private void btnAtualizarAction(ActionEvent event) {
+    private void btnEditarAction(ActionEvent event) {
         // Só permite atualizar se o usuário clicou em alguma banda da tabela antes (id diferente de -1)
         if (idBandaSelecionada != -1) {
             String nome = txtNome.getText();
@@ -134,13 +153,16 @@ public class MainController {
         BandaDTO objBandaDTO = tblBandas.getSelectionModel().getSelectedItem();
 
         if (objBandaDTO != null) {
-            // Captura o ID do banco que veio na tabela e guarda na nossa variável oculta
             idBandaSelecionada = objBandaDTO.getId();
 
-            // Preenche apenas os campos de texto comuns
             txtNome.setText(objBandaDTO.getNome());
             txtGenero.setText(objBandaDTO.getGenero());
-            txtDataFormacao.setText(objBandaDTO.getDataFormacao().toString());
+
+            DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            txtDataFormacao.setText(
+                    objBandaDTO.getDataFormacao().format(formatoBr)
+            );
+
             txtCidadeOrigem.setText(objBandaDTO.getCidadeOrigem());
         }
     }
@@ -151,5 +173,10 @@ public class MainController {
         txtGenero.clear();
         txtDataFormacao.clear();
         txtCidadeOrigem.clear();
+
+    }
+    @FXML
+    private void btnLimparAction(ActionEvent event){
+        limparCampos();
     }
 }
