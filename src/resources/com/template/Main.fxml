@@ -5,42 +5,51 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="708.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.template.MainController">
+<AnchorPane prefHeight="708.0" prefWidth="965.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.template.MainController">
     <children>
-      <Pane layoutY="4.0" prefHeight="708.0" prefWidth="965.0" style="-fx-background-color: PURPLE;">
-         <children>
-             <Button fx:id="btnCadastrar" layoutX="481.0" layoutY="102.0" mnemonicParsing="false" onAction="#btnCadastrarAction" text="Cadastrar" />
-            <Button fx:id="btnEditar" layoutX="491.0" layoutY="160.0" mnemonicParsing="false" onAction="#btnEditarAction" text="Editar" />
-            <Label layoutX="81.0" layoutY="81.0" text="Nome" />
-            <Label layoutX="78.0" layoutY="136.0" text="Gênero" />
-            <Label layoutX="29.0" layoutY="172.0" prefHeight="67.0" prefWidth="137.0" text="Data de formação  (DD/MM/AAAA)" textAlignment="CENTER" wrapText="true" />
-            <Label layoutX="49.0" layoutY="257.0" text="Cidade de Origem" />
-            <TextField fx:id="txtNome" layoutX="153.0" layoutY="77.0" />
-            <TextField fx:id="txtGenero" layoutX="153.0" layoutY="133.0" />
-            <TextField fx:id="txtDataFormacao" layoutX="153.0" layoutY="193.0" />
-            <TextField fx:id="txtCidadeOrigem" layoutX="153.0" layoutY="253.0" />
-            <Button fx:id="btnExcluir" layoutX="32.0" layoutY="337.0" mnemonicParsing="false" onAction="#btnExcluirAction" text="Excluir">
-               <graphic>
-                  <TableView fx:id="tblBandas" onMouseClicked="#carregarCampos" prefHeight="330.0" prefWidth="650.0">
+        <Pane prefHeight="708.0" prefWidth="965.0" style="-fx-background-color: #121212;">
+            <children>
+                <Button fx:id="btnCadastrar" layoutX="481.0" layoutY="77.0" mnemonicParsing="false" onAction="#btnCadastrarAction" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #8B0000, #4A0000); -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold;" text="Cadastrar" />
+                <Button fx:id="btnEditar" layoutX="481.0" layoutY="133.0" mnemonicParsing="false" onAction="#btnEditarAction" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #8B0000, #4A0000); -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold;" text="Editar" />
+                <Button fx:id="btnLimpar" layoutX="481.0" layoutY="193.0" mnemonicParsing="false" onAction="#btnLimparAction" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #8B0000, #4A0000); -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold;" text="Limpar" />
+                <Button fx:id="btnExcluir" layoutX="481.0" layoutY="253.0" mnemonicParsing="false" onAction="#btnExcluirAction" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #8B0000, #4A0000); -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold;" text="Excluir" />
+
+                <Label layoutX="81.0" layoutY="81.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Nome">
+                    <font>
+                        <Font size="14.0" />
+                    </font></Label>
+                <Label layoutX="78.0" layoutY="137.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Gênero">
+                    <font>
+                        <Font size="14.0" />
+                    </font></Label>
+                <Label layoutX="29.0" layoutY="179.0" prefHeight="54.0" prefWidth="114.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Data de formação (DD/MM/AAAA)" textAlignment="CENTER" wrapText="true">
+                    <font>
+                        <Font size="13.0" />
+                    </font></Label>
+                <Label layoutX="29.0" layoutY="257.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Cidade de Origem">
+                    <font>
+                        <Font size="14.0" />
+                    </font></Label>
+
+                <TextField fx:id="txtNome" layoutX="153.0" layoutY="77.0" prefHeight="25.0" prefWidth="250.0" style="-fx-background-color: #050505; -fx-border-color: #8B0000; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-fill: white;" />
+                <TextField fx:id="txtGenero" layoutX="153.0" layoutY="133.0" prefHeight="25.0" prefWidth="250.0" style="-fx-background-color: #050505; -fx-border-color: #8B0000; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-fill: white;" />
+                <TextField fx:id="txtDataFormacao" layoutX="153.0" layoutY="193.0" prefHeight="25.0" prefWidth="250.0" style="-fx-background-color: #050505; -fx-border-color: #8B0000; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-fill: white;" />
+                <TextField fx:id="txtCidadeOrigem" layoutX="153.0" layoutY="253.0" prefHeight="25.0" prefWidth="250.0" style="-fx-background-color: #050505; -fx-border-color: #8B0000; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-fill: white;" />
+
+                <TableView fx:id="tblBandas" layoutX="29.0" layoutY="327.0" onMouseClicked="#carregarCampos" prefHeight="345.0" prefWidth="900.0" style="-fx-background-color: #1A1A1A; -fx-border-color: #8B0000; -fx-border-width: 2;">
                     <columns>
-                      <TableColumn fx:id="colId" prefWidth="75.0" text="id" />
-                      <TableColumn fx:id="colNome" prefWidth="187.0" text="nome" />
-                        <TableColumn fx:id="colGenero" prefWidth="97.0" text="genero" />
-                        <TableColumn fx:id="colDataFormacao" prefWidth="143.0" text="data_formacao" />
-                        <TableColumn fx:id="colCidadeOrigem" minWidth="2.0" prefWidth="147.0" text="cidade_origem" />
+                        <TableColumn fx:id="colId" prefWidth="60.0" text="id" />
+                        <TableColumn fx:id="colNome" prefWidth="250.0" text="nome" />
+                        <TableColumn fx:id="colGenero" prefWidth="180.0" text="genero" />
+                        <TableColumn fx:id="colDataFormacao" prefWidth="180.0" text="data_formacao" />
+                        <TableColumn fx:id="colCidadeOrigem" prefWidth="226.0" text="cidade_origem" />
                     </columns>
-                  </TableView>
-               </graphic>
-            </Button>
-            <Button fx:id="btnLimpar" layoutX="488.0" layoutY="227.0" mnemonicParsing="false" onAction="#btnLimparAction" text="Limpar" />
-         </children>
-         <effect>
-            <Bloom threshold="1.0" />
-         </effect>
-      </Pane>
+                </TableView>
+            </children>
+        </Pane>
     </children>
 </AnchorPane>
