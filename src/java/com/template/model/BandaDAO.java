@@ -11,9 +11,8 @@ import java.util.logging.Logger;
 
 public class BandaDAO { // Se comunica com o banco
     private static final Logger logger = Logger.getLogger(BandaDAO.class.getName());
-    private ArrayList<BandaDTO> listaBandas = new ArrayList<>();
+    private ArrayList<BandaDTO> listaBandas = new ArrayList<>();//Cria uma lista de bandas
 
-    // NOVO MÉTODO: Adaptado a partir do Passo 3 do slide
     public ArrayList<BandaDTO> listarBandas() {
         listaBandas.clear(); // Limpa a lista antes de carregar
         String sql = "select * from bandas";
@@ -27,7 +26,6 @@ public class BandaDAO { // Se comunica com o banco
                 String nome = rs.getString("nome");
                 String genero = rs.getString("genero");
 
-                // Conversão segura de java.sql.Date para LocalDate
                 LocalDate dataFormacao = null;
                 java.sql.Date dbDate = rs.getDate("data_formacao");
                 if (dbDate != null) {

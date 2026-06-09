@@ -17,13 +17,12 @@ import java.util.ArrayList;
 
 public class MainController {
 
-    // VARIÁVEL OCULTA: Guarda o ID da banda selecionada na tabela para usar no Atualizar e Excluir
+    // Guarda o ID da banda selecionada na tabela para usar no Atualizar e Excluir
     private int idBandaSelecionada = -1;
 
-    // Apenas os campos visíveis que o usuário preenche
     @FXML private TextField txtNome;
     @FXML private TextField txtGenero;
-    @FXML private TextField txtDataFormacao; // Formato esperado: AAAA-MM-DD
+    @FXML private TextField txtDataFormacao;
     @FXML private TextField txtCidadeOrigem;
 
     @FXML private Button btnCadastrar;
@@ -32,7 +31,7 @@ public class MainController {
     @FXML private Button btnLimpar;
 
     @FXML private TableView<BandaDTO> tblBandas;
-    @FXML private TableColumn<BandaDTO, Integer> colId; // Mantemos na tabela para o usuário ver o ID gerado
+    @FXML private TableColumn<BandaDTO, Integer> colId;
     @FXML private TableColumn<BandaDTO, String> colNome;
     @FXML private TableColumn<BandaDTO, String> colGenero;
     @FXML private TableColumn<BandaDTO, String> colDataFormacao;
@@ -47,13 +46,13 @@ public class MainController {
         colDataFormacao.setCellFactory(column -> new javafx.scene.control.TableCell<BandaDTO, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
+                super.updateItem(item, empty);//garante que o JavaFX faça a limpeza padrão da célula antes da lógica.
 
-                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {//if para evitar bugs visuais
                     setText(null);
                 } else {
                     BandaDTO banda = (BandaDTO) getTableRow().getItem();
-                    if (banda.getDataFormacao() != null) {
+                    if (banda.getDataFormacao() != null) {//se a banda tiver data muda o formato
                         setText(banda.getDataFormacao().format(
                                 DateTimeFormatter.ofPattern("dd/MM/yyyy")
                         ));
@@ -80,8 +79,8 @@ public class MainController {
         String genero = txtGenero.getText();
         String cidadeOrigem = txtCidadeOrigem.getText();
 
-        // Validação básica se a data está vazia
-        if (txtDataFormacao.getText() == null || txtDataFormacao.getText().trim().isEmpty()) {
+        // Validação se a data está vazia
+        if (txtDataFormacao.getText() == null) {
             System.out.println("Por favor, insira a data de formação!");
             return;
         }
@@ -89,16 +88,15 @@ public class MainController {
         try {
             // Define o formato brasileiro dd/MM/yyyy
             DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate dataFormacao = LocalDate.parse(txtDataFormacao.getText(), formatoBr);
+            LocalDate dataFormacao = LocalDate.parse(txtDataFormacao.getText(), formatoBr);//tranforma a data
 
-            // Usa o construtor SEM ID (o banco cuidará do autoincremento)
-            BandaDTO objbandadto = new BandaDTO(nome, genero, dataFormacao, cidadeOrigem);
+            BandaDTO objDTO = new BandaDTO(nome, genero, dataFormacao, cidadeOrigem);
 
-            BandaDAO objbandadao = new BandaDAO();
-            objbandadao.cadastrarBanda(objbandadto);
+            BandaDAO objDAO = new BandaDAO();
+            objDAO.cadastrarBanda(objDTO);
 
             carregarBandas(); // Atualiza a tabela
-            limparCampos();
+            limparCampos();//limpa os campos
         } catch (DateTimeParseException e) {
             System.out.println("Erro: Formato de data inválido! Digite como dd/MM/yyyy (Ex: 23/07/2021).");
         }
@@ -106,7 +104,7 @@ public class MainController {
 
     @FXML
     private void btnEditarAction(ActionEvent event) {
-        // Só permite atualizar se o usuário clicou em alguma banda da tabela antes (id diferente de -1)
+        // Só permite atualizar se o usuário clicou em alguma banda da tabela
         if (idBandaSelecionada != -1) {
             String nome = txtNome.getText();
             String genero = txtGenero.getText();
@@ -117,11 +115,10 @@ public class MainController {
                 DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDate dataFormacao = LocalDate.parse(txtDataFormacao.getText(), formatoBr);
 
-                // Usa o construtor COM ID, passando a nossa variável de controle interna
-                BandaDTO objbandadto = new BandaDTO(idBandaSelecionada, nome, genero, dataFormacao, cidadeOrigem);
+                BandaDTO objDTO = new BandaDTO(idBandaSelecionada, nome, genero, dataFormacao, cidadeOrigem);
 
-                BandaDAO objbandadao = new BandaDAO();
-                objbandadao.atualizarBanda(objbandadto);
+                BandaDAO objDAO = new BandaDAO();
+                objDAO.atualizarBanda(objDTO);
 
                 carregarBandas();
                 limparCampos();
@@ -137,8 +134,8 @@ public class MainController {
     private void btnExcluirAction(ActionEvent event) {
         // Só permite excluir se houver uma banda selecionada
         if (idBandaSelecionada != -1) {
-            BandaDAO objbandadao = new BandaDAO();
-            objbandadao.removerBanda(idBandaSelecionada);
+            BandaDAO objDAO = new BandaDAO();
+            objDAO.removerBanda(idBandaSelecionada);
 
             carregarBandas();
             limparCampos();
@@ -147,23 +144,22 @@ public class MainController {
         }
     }
 
-    // Método acionado ao clicar em uma linha da tabela (On Mouse Clicked no Scene Builder)
     @FXML
     private void carregarCampos() {
-        BandaDTO objBandaDTO = tblBandas.getSelectionModel().getSelectedItem();
+        BandaDTO objDTO = tblBandas.getSelectionModel().getSelectedItem();
 
-        if (objBandaDTO != null) {
-            idBandaSelecionada = objBandaDTO.getId();
+        if (objDTO != null) {
+            idBandaSelecionada = objDTO.getId();
 
-            txtNome.setText(objBandaDTO.getNome());
-            txtGenero.setText(objBandaDTO.getGenero());
+            txtNome.setText(objDTO.getNome());
+            txtGenero.setText(objDTO.getGenero());
 
             DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             txtDataFormacao.setText(
-                    objBandaDTO.getDataFormacao().format(formatoBr)
+                    objDTO.getDataFormacao().format(formatoBr)
             );
 
-            txtCidadeOrigem.setText(objBandaDTO.getCidadeOrigem());
+            txtCidadeOrigem.setText(objDTO.getCidadeOrigem());
         }
     }
 
