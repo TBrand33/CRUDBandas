@@ -7,6 +7,7 @@ import com.template.model.BandaDTO;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -16,9 +17,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MainController {
-
-    // Guarda o ID da banda selecionada na tabela para usar no Atualizar e Excluir
-    private int idBandaSelecionada = -1;
 
     @FXML private TextField txtNome;
     @FXML private TextField txtGenero;
@@ -39,23 +37,19 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        // Vincula as colunas da tabela aos atributos do BandaDTO
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
         colDataFormacao.setCellFactory(column -> new javafx.scene.control.TableCell<BandaDTO, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);//garante que o JavaFX faça a limpeza padrão da célula antes da lógica.
-
-                if (empty || getTableRow() == null || getTableRow().getItem() == null) {//if para evitar bugs visuais
+                super.updateItem(item, empty);
+                if (empty || getTableRow() == null || getTableRow().getItem() == null) {
                     setText(null);
                 } else {
                     BandaDTO banda = (BandaDTO) getTableRow().getItem();
-                    if (banda.getDataFormacao() != null) {//se a banda tiver data muda o formato
-                        setText(banda.getDataFormacao().format(
-                                DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                        ));
+                    if (banda.getDataFormacao() != null) {
+                        setText(banda.getDataFormacao().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                     } else {
                         setText("");
                     }
@@ -64,7 +58,33 @@ public class MainController {
         });
         colCidadeOrigem.setCellValueFactory(new PropertyValueFactory<>("cidadeOrigem"));
 
+        txtNome.textProperty().addListener((observable, oldValue, newValue) -> validarCampos());
+        txtGenero.textProperty().addListener((observable, oldValue, newValue) -> validarCampos());
+        txtDataFormacao.textProperty().addListener((observable, oldValue, newValue) -> validarCampos());
+
+        validarCampos();
         carregarBandas();
+    }
+
+    private void validarCampos() {
+        String nome = txtNome.getText();
+        String genero = txtGenero.getText();
+        String data = txtDataFormacao.getText();
+
+        if (nome == null || nome.trim().isEmpty() ||
+                genero == null || genero.trim().isEmpty() ||
+                data == null || data.trim().isEmpty()) {
+
+            btnCadastrar.setDisable(true);
+            btnEditar.setDisable(true);
+            btnExcluir.setDisable(true);
+            btnLimpar.setDisable(true);
+        } else {
+            btnExcluir.setDisable(false);
+            btnLimpar.setDisable(false);
+            btnCadastrar.setDisable(false);
+            btnEditar.setDisable(false);
+        }
     }
 
     private void carregarBandas() {
@@ -79,68 +99,66 @@ public class MainController {
         String genero = txtGenero.getText();
         String cidadeOrigem = txtCidadeOrigem.getText();
 
-        // Validação se a data está vazia
-        if (txtDataFormacao.getText() == null) {
-            System.out.println("Por favor, insira a data de formação!");
-            return;
-        }
-
         try {
-            // Define o formato brasileiro dd/MM/yyyy
             DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate dataFormacao = LocalDate.parse(txtDataFormacao.getText(), formatoBr);//tranforma a data
+            LocalDate dataFormacao = LocalDate.parse(txtDataFormacao.getText(), formatoBr);
 
             BandaDTO objDTO = new BandaDTO(nome, genero, dataFormacao, cidadeOrigem);
-
             BandaDAO objDAO = new BandaDAO();
             objDAO.cadastrarBanda(objDTO);
 
-            carregarBandas(); // Atualiza a tabela
-            limparCampos();//limpa os campos
+            exibirAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Banda cadastrada com sucesso!");
+
+            carregarBandas();
+            limparCampos();
         } catch (DateTimeParseException e) {
-            System.out.println("Erro: Formato de data inválido! Digite como dd/MM/yyyy (Ex: 23/07/2021).");
+            exibirAlerta(Alert.AlertType.ERROR, "Erro de Formato", "Formato de data inválido! Digite como dd/MM/yyyy (Ex: 23/07/2021).");
         }
     }
 
     @FXML
     private void btnEditarAction(ActionEvent event) {
-        // Só permite atualizar se o usuário clicou em alguma banda da tabela
-        if (idBandaSelecionada != -1) {
+        BandaDTO bandaSelecionada = tblBandas.getSelectionModel().getSelectedItem();
+
+        if (bandaSelecionada != null) {
             String nome = txtNome.getText();
             String genero = txtGenero.getText();
             String cidadeOrigem = txtCidadeOrigem.getText();
 
             try {
-                // Define o formato brasileiro dd/MM/yyyy
                 DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 LocalDate dataFormacao = LocalDate.parse(txtDataFormacao.getText(), formatoBr);
 
-                BandaDTO objDTO = new BandaDTO(idBandaSelecionada, nome, genero, dataFormacao, cidadeOrigem);
-
+                BandaDTO objDTO = new BandaDTO(bandaSelecionada.getId(), nome, genero, dataFormacao, cidadeOrigem);
                 BandaDAO objDAO = new BandaDAO();
                 objDAO.atualizarBanda(objDTO);
+
+                exibirAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Banda atualizada com sucesso!");
 
                 carregarBandas();
                 limparCampos();
             } catch (DateTimeParseException e) {
-                System.out.println("Erro: Formato de data inválido! Digite como dd/MM/yyyy (Ex: 23/07/2021).");
+                exibirAlerta(Alert.AlertType.ERROR, "Erro de Formato", "Formato de data inválido! Digite como dd/MM/yyyy (Ex: 23/07/2021).");
             }
         } else {
-            System.out.println("Por favor, selecione uma banda na tabela primeiro!");
+            exibirAlerta(Alert.AlertType.WARNING, "Aviso", "Por favor, selecione uma banda na tabela primeiro!");
         }
     }
 
     @FXML
     private void btnExcluirAction(ActionEvent event) {
-        // Só permite excluir se houver uma banda selecionada
-        if (idBandaSelecionada != -1) {
+        BandaDTO bandaSelecionada = tblBandas.getSelectionModel().getSelectedItem();
+
+        if (bandaSelecionada != null) {
             BandaDAO objDAO = new BandaDAO();
-            objDAO.removerBanda(idBandaSelecionada);
+            objDAO.removerBanda(bandaSelecionada.getId()); // Passa o ID local
+
+            exibirAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Banda removida com sucesso!");
 
             carregarBandas();
             limparCampos();
         } else {
-            System.out.println("Por favor, selecione uma banda na tabela primeiro!");
+            exibirAlerta(Alert.AlertType.WARNING, "Aviso", "Por favor, selecione uma banda na tabela primeiro!");
         }
     }
 
@@ -149,30 +167,39 @@ public class MainController {
         BandaDTO objDTO = tblBandas.getSelectionModel().getSelectedItem();
 
         if (objDTO != null) {
-            idBandaSelecionada = objDTO.getId();
-
             txtNome.setText(objDTO.getNome());
             txtGenero.setText(objDTO.getGenero());
 
             DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            txtDataFormacao.setText(
-                    objDTO.getDataFormacao().format(formatoBr)
-            );
+            txtDataFormacao.setText(objDTO.getDataFormacao().format(formatoBr));
 
             txtCidadeOrigem.setText(objDTO.getCidadeOrigem());
+
+            validarCampos();
         }
     }
 
     private void limparCampos() {
-        idBandaSelecionada = -1; // Reseta a seleção para segurança
+        tblBandas.getSelectionModel().clearSelection();
+
         txtNome.clear();
         txtGenero.clear();
         txtDataFormacao.clear();
         txtCidadeOrigem.clear();
 
+        validarCampos();
     }
+
     @FXML
     private void btnLimparAction(ActionEvent event){
         limparCampos();
+    }
+
+    private void exibirAlerta(Alert.AlertType tipo, String titulo, String mensagem) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensagem);
+        alerta.showAndWait();
     }
 }

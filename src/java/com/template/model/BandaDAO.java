@@ -34,7 +34,6 @@ public class BandaDAO { // Se comunica com o banco
 
                 String cidadeOrigem = rs.getString("cidade_origem");
 
-                // Cria o objeto DTO com ID
                 BandaDTO banda = new BandaDTO(id, nome, genero, dataFormacao, cidadeOrigem);
                 listaBandas.add(banda);
             }
@@ -53,7 +52,6 @@ public class BandaDAO { // Se comunica com o banco
             ps.setObject(3, banda.getDataFormacao());
             ps.setString(4, banda.getCidadeOrigem());
             ps.execute();
-            System.out.println("Banda cadastrada com sucesso!");
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Erro ao cadastrar banda", ex);
         }
@@ -69,7 +67,6 @@ public class BandaDAO { // Se comunica com o banco
             ps.setString(4, banda.getCidadeOrigem());
             ps.setInt(5, banda.getId());
             ps.execute();
-            System.out.println("Banda Atualizada com sucesso!");
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Erro ao atualizar banda", ex);
         }
@@ -81,7 +78,6 @@ public class BandaDAO { // Se comunica com o banco
              PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.execute();
-            System.out.println("Banda Removida com sucesso");
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Erro ao remover Banda", ex);
         }
