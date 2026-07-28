@@ -1,4 +1,7 @@
-package com.template.model;
+package com.template.model.dao;
+
+import com.template.model.dto.BandaDTO;
+import com.template.model.conection.Conexao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,6 +11,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.template.util.DialogUtil.showError;
 
 public class BandaDAO { // Se comunica com o banco
     private static final Logger logger = Logger.getLogger(BandaDAO.class.getName());
@@ -39,6 +44,7 @@ public class BandaDAO { // Se comunica com o banco
             }
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Erro ao listar bandas", ex);
+            showError("Erro ao listar bandas");
         }
         return listaBandas;
     }
@@ -54,6 +60,7 @@ public class BandaDAO { // Se comunica com o banco
             ps.execute();
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Erro ao cadastrar banda", ex);
+            showError("Erro ao cadastrar banda");
         }
     }
 
@@ -69,6 +76,7 @@ public class BandaDAO { // Se comunica com o banco
             ps.execute();
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Erro ao atualizar banda", ex);
+            showError("Erro ao atualizar banda");
         }
     }
 
@@ -80,6 +88,7 @@ public class BandaDAO { // Se comunica com o banco
             ps.execute();
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Erro ao remover Banda", ex);
+            showError("Erro ao remover Banda");
         }
     }
 }

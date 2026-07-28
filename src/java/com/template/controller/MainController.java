@@ -1,9 +1,9 @@
-package com.template;
+package com.template.controller;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import com.template.model.BandaDAO;
-import com.template.model.BandaDTO;
+import com.template.model.dao.BandaDAO;
+import com.template.model.dto.BandaDTO;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import static com.template.util.DialogUtil.*;
 
 public class MainController {
 
@@ -107,12 +109,12 @@ public class MainController {
             BandaDAO objDAO = new BandaDAO();
             objDAO.cadastrarBanda(objDTO);
 
-            exibirAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Banda cadastrada com sucesso!");
+            showInformation("Banda cadastrada com sucesso!");
 
             carregarBandas();
             limparCampos();
         } catch (DateTimeParseException e) {
-            exibirAlerta(Alert.AlertType.ERROR, "Erro de Formato", "Formato de data inválido! Digite como dd/MM/yyyy (Ex: 23/07/2021).");
+            showError("Formato de data inválido! Digite como dd/MM/yyyy (Ex: 23/07/2021).");
         }
     }
 
@@ -133,15 +135,15 @@ public class MainController {
                 BandaDAO objDAO = new BandaDAO();
                 objDAO.atualizarBanda(objDTO);
 
-                exibirAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Banda atualizada com sucesso!");
+                showInformation("Banda atualizada com sucesso!");
 
                 carregarBandas();
                 limparCampos();
             } catch (DateTimeParseException e) {
-                exibirAlerta(Alert.AlertType.ERROR, "Erro de Formato", "Formato de data inválido! Digite como dd/MM/yyyy (Ex: 23/07/2021).");
+                showError("Formato de data inválido! Digite como dd/MM/yyyy (Ex: 23/07/2021).");
             }
         } else {
-            exibirAlerta(Alert.AlertType.WARNING, "Aviso", "Por favor, selecione uma banda na tabela primeiro!");
+            showWarning("Por favor, selecione uma banda na tabela primeiro!");
         }
     }
 
@@ -153,12 +155,14 @@ public class MainController {
             BandaDAO objDAO = new BandaDAO();
             objDAO.removerBanda(bandaSelecionada.getId()); // Passa o ID local
 
-            exibirAlerta(Alert.AlertType.INFORMATION, "Sucesso", "Banda removida com sucesso!");
+            showConfirmation("Deseja remover essa banda?");
+
+            showInformation("Banda removida com sucesso!");
 
             carregarBandas();
             limparCampos();
         } else {
-            exibirAlerta(Alert.AlertType.WARNING, "Aviso", "Por favor, selecione uma banda na tabela primeiro!");
+            showWarning("Por favor, selecione uma banda na tabela primeiro!");
         }
     }
 
@@ -195,11 +199,4 @@ public class MainController {
         limparCampos();
     }
 
-    private void exibirAlerta(Alert.AlertType tipo, String titulo, String mensagem) {
-        Alert alerta = new Alert(tipo);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensagem);
-        alerta.showAndWait();
-    }
 }

@@ -9,44 +9,44 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="708.0" prefWidth="965.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.template.MainController">
+<AnchorPane prefHeight="708.0" prefWidth="965.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.template.controller.MainController">
     <children>
-        <Pane prefHeight="708.0" prefWidth="965.0" style="-fx-background-color: #121212;">
+        <Pane layoutX="-14.0" prefHeight="1080.0" prefWidth="1918.0" style="-fx-background-color: #121212;">
             <children>
-                <Button fx:id="btnCadastrar" layoutX="481.0" layoutY="77.0" mnemonicParsing="false" onAction="#btnCadastrarAction" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #8B0000, #4A0000); -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold;" text="Cadastrar" />
-                <Button fx:id="btnEditar" layoutX="481.0" layoutY="133.0" mnemonicParsing="false" onAction="#btnEditarAction" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #8B0000, #4A0000); -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold;" text="Editar" />
-                <Button fx:id="btnLimpar" layoutX="481.0" layoutY="193.0" mnemonicParsing="false" onAction="#btnLimparAction" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #8B0000, #4A0000); -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold;" text="Limpar" />
-                <Button fx:id="btnExcluir" layoutX="481.0" layoutY="253.0" mnemonicParsing="false" onAction="#btnExcluirAction" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: linear-gradient(to bottom, #8B0000, #4A0000); -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold;" text="Excluir" />
+                <Button fx:id="btnCadastrar" layoutX="1378.0" layoutY="76.0" mnemonicParsing="false" onAction="#btnCadastrarAction" prefHeight="30.0" prefWidth="385.0" style="-fx-background-color: linear-gradient(to bottom, #8B0000, #4A0000); -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold;" text="Cadastrar" />
+                <Button fx:id="btnEditar" layoutX="1378.0" layoutY="132.0" mnemonicParsing="false" onAction="#btnEditarAction" prefHeight="30.0" prefWidth="385.0" style="-fx-background-color: linear-gradient(to bottom, #8B0000, #4A0000); -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold;" text="Editar" />
+                <Button fx:id="btnLimpar" layoutX="1378.0" layoutY="191.0" mnemonicParsing="false" onAction="#btnLimparAction" prefHeight="30.0" prefWidth="385.0" style="-fx-background-color: linear-gradient(to bottom, #8B0000, #4A0000); -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold;" text="Limpar" />
+                <Button fx:id="btnExcluir" layoutX="1378.0" layoutY="252.0" mnemonicParsing="false" onAction="#btnExcluirAction" prefHeight="30.0" prefWidth="385.0" style="-fx-background-color: linear-gradient(to bottom, #8B0000, #4A0000); -fx-text-fill: white; -fx-background-radius: 15; -fx-font-weight: bold;" text="Excluir" />
 
-                <Label layoutX="81.0" layoutY="81.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Nome">
+                <Label layoutX="160.0" layoutY="81.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Nome">
                     <font>
                         <Font size="14.0" />
                     </font></Label>
-                <Label layoutX="78.0" layoutY="137.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Gênero">
+                <Label layoutX="156.0" layoutY="137.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Gênero">
                     <font>
                         <Font size="14.0" />
                     </font></Label>
-                <Label layoutX="29.0" layoutY="179.0" prefHeight="54.0" prefWidth="114.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Data de formação (DD/MM/AAAA)" textAlignment="CENTER" wrapText="true">
+                <Label layoutX="123.0" layoutY="179.0" prefHeight="54.0" prefWidth="114.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Data de formação (DD/MM/AAAA)" textAlignment="CENTER" wrapText="true">
                     <font>
                         <Font size="13.0" />
                     </font></Label>
-                <Label layoutX="29.0" layoutY="257.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Cidade de Origem">
+                <Label layoutX="121.0" layoutY="258.0" style="-fx-text-fill: white; -fx-font-weight: bold;" text="Cidade de Origem">
                     <font>
                         <Font size="14.0" />
                     </font></Label>
 
-                <TextField fx:id="txtNome" layoutX="153.0" layoutY="77.0" prefHeight="25.0" prefWidth="250.0" style="-fx-background-color: #050505; -fx-border-color: #8B0000; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-fill: white;" />
-                <TextField fx:id="txtGenero" layoutX="153.0" layoutY="133.0" prefHeight="25.0" prefWidth="250.0" style="-fx-background-color: #050505; -fx-border-color: #8B0000; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-fill: white;" />
-                <TextField fx:id="txtDataFormacao" layoutX="153.0" layoutY="193.0" prefHeight="25.0" prefWidth="250.0" style="-fx-background-color: #050505; -fx-border-color: #8B0000; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-fill: white;" />
-                <TextField fx:id="txtCidadeOrigem" layoutX="153.0" layoutY="253.0" prefHeight="25.0" prefWidth="250.0" style="-fx-background-color: #050505; -fx-border-color: #8B0000; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-fill: white;" />
+                <TextField fx:id="txtNome" layoutX="242.0" layoutY="78.0" prefHeight="27.0" prefWidth="521.0" style="-fx-background-color: #050505; -fx-border-color: #8B0000; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-fill: white;" />
+                <TextField fx:id="txtGenero" layoutX="242.0" layoutY="134.0" prefHeight="27.0" prefWidth="521.0" style="-fx-background-color: #050505; -fx-border-color: #8B0000; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-fill: white;" />
+                <TextField fx:id="txtDataFormacao" layoutX="242.0" layoutY="193.0" prefHeight="27.0" prefWidth="521.0" style="-fx-background-color: #050505; -fx-border-color: #8B0000; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-fill: white;" />
+                <TextField fx:id="txtCidadeOrigem" layoutX="242.0" layoutY="254.0" prefHeight="27.0" prefWidth="521.0" style="-fx-background-color: #050505; -fx-border-color: #8B0000; -fx-border-radius: 5; -fx-background-radius: 5; -fx-text-fill: white;" />
 
-                <TableView fx:id="tblBandas" layoutX="29.0" layoutY="327.0" onMouseClicked="#carregarCampos" prefHeight="345.0" prefWidth="900.0" style="-fx-background-color: #1A1A1A; -fx-border-color: #8B0000; -fx-border-width: 2;">
+                <TableView fx:id="tblBandas" layoutX="29.0" layoutY="327.0" onMouseClicked="#carregarCampos" prefHeight="541.0" prefWidth="1737.0" style="-fx-background-color: #1A1A1A; -fx-border-color: #8B0000; -fx-border-width: 2;">
                     <columns>
-                        <TableColumn fx:id="colId" prefWidth="60.0" text="id" />
-                        <TableColumn fx:id="colNome" prefWidth="250.0" text="nome" />
-                        <TableColumn fx:id="colGenero" prefWidth="180.0" text="genero" />
-                        <TableColumn fx:id="colDataFormacao" prefWidth="180.0" text="data_formacao" />
-                        <TableColumn fx:id="colCidadeOrigem" prefWidth="226.0" text="cidade_origem" />
+                        <TableColumn fx:id="colId" prefWidth="93.0" text="id" />
+                        <TableColumn fx:id="colNome" prefWidth="352.0" text="nome" />
+                        <TableColumn fx:id="colGenero" prefWidth="232.0" text="genero" />
+                        <TableColumn fx:id="colDataFormacao" prefWidth="464.0" text="data_formacao" />
+                        <TableColumn fx:id="colCidadeOrigem" prefWidth="593.0" text="cidade_origem" />
                     </columns>
                 </TableView>
             </children>

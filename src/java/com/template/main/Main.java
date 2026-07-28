@@ -1,4 +1,4 @@
-package com.template;
+package com.template.main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,7 @@ public class Main extends Application
     public void start(Stage stage) throws Exception
     {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("main.fxml"));
-        Scene scene = new Scene(loader.load(),1500,900);
+        Scene scene = new Scene(loader.load(),1720,980);
         stage.setScene(scene);
         stage.show();
     }
