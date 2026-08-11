@@ -1,13 +1,12 @@
 package com.template.controller;
 
+import com.template.validator.BandaValidator;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import com.template.model.dao.BandaDAO;
 import com.template.model.dto.BandaDTO;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -60,33 +59,7 @@ public class MainController {
         });
         colCidadeOrigem.setCellValueFactory(new PropertyValueFactory<>("cidadeOrigem"));
 
-        txtNome.textProperty().addListener((observable, oldValue, newValue) -> validarCampos());
-        txtGenero.textProperty().addListener((observable, oldValue, newValue) -> validarCampos());
-        txtDataFormacao.textProperty().addListener((observable, oldValue, newValue) -> validarCampos());
-
-        validarCampos();
         carregarBandas();
-    }
-
-    private void validarCampos() {
-        String nome = txtNome.getText();
-        String genero = txtGenero.getText();
-        String data = txtDataFormacao.getText();
-
-        if (nome == null || nome.trim().isEmpty() ||
-                genero == null || genero.trim().isEmpty() ||
-                data == null || data.trim().isEmpty()) {
-
-            btnCadastrar.setDisable(true);
-            btnEditar.setDisable(true);
-            btnExcluir.setDisable(true);
-            btnLimpar.setDisable(true);
-        } else {
-            btnExcluir.setDisable(false);
-            btnLimpar.setDisable(false);
-            btnCadastrar.setDisable(false);
-            btnEditar.setDisable(false);
-        }
     }
 
     private void carregarBandas() {
@@ -99,23 +72,24 @@ public class MainController {
     private void btnCadastrarAction(ActionEvent event) {
         String nome = txtNome.getText();
         String genero = txtGenero.getText();
+        String data = txtDataFormacao.getText();
         String cidadeOrigem = txtCidadeOrigem.getText();
 
-        try {
-            DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate dataFormacao = LocalDate.parse(txtDataFormacao.getText(), formatoBr);
-
-            BandaDTO objDTO = new BandaDTO(nome, genero, dataFormacao, cidadeOrigem);
-            BandaDAO objDAO = new BandaDAO();
-            objDAO.cadastrarBanda(objDTO);
-
-            showInformation("Banda cadastrada com sucesso!");
-
-            carregarBandas();
-            limparCampos();
-        } catch (DateTimeParseException e) {
-            showError("Formato de data inválido! Digite como dd/MM/yyyy (Ex: 23/07/2021).");
+        if (!BandaValidator.validarBandas(nome, genero, data, cidadeOrigem)) {
+            return;
         }
+
+        DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataFormacao = LocalDate.parse(data.trim(), formatoBr);
+
+        BandaDTO objDTO = new BandaDTO(nome, genero, dataFormacao, cidadeOrigem);
+        BandaDAO objDAO = new BandaDAO();
+        objDAO.cadastrarBanda(objDTO);
+
+        showInformation("Banda cadastrada com sucesso!");
+
+        carregarBandas();
+        limparCampos();
     }
 
     @FXML
@@ -125,23 +99,25 @@ public class MainController {
         if (bandaSelecionada != null) {
             String nome = txtNome.getText();
             String genero = txtGenero.getText();
+            String data = txtDataFormacao.getText();
             String cidadeOrigem = txtCidadeOrigem.getText();
 
-            try {
-                DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate dataFormacao = LocalDate.parse(txtDataFormacao.getText(), formatoBr);
-
-                BandaDTO objDTO = new BandaDTO(bandaSelecionada.getId(), nome, genero, dataFormacao, cidadeOrigem);
-                BandaDAO objDAO = new BandaDAO();
-                objDAO.atualizarBanda(objDTO);
-
-                showInformation("Banda atualizada com sucesso!");
-
-                carregarBandas();
-                limparCampos();
-            } catch (DateTimeParseException e) {
-                showError("Formato de data inválido! Digite como dd/MM/yyyy (Ex: 23/07/2021).");
+            // Validação usando o BandaValidator
+            if (!BandaValidator.validarBandas(nome, genero, data, cidadeOrigem)) {
+                return;
             }
+
+            DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate dataFormacao = LocalDate.parse(data.trim(), formatoBr);
+
+            BandaDTO objDTO = new BandaDTO(bandaSelecionada.getId(), nome, genero, dataFormacao, cidadeOrigem);
+            BandaDAO objDAO = new BandaDAO();
+            objDAO.atualizarBanda(objDTO);
+
+            showInformation("Banda atualizada com sucesso!");
+
+            carregarBandas();
+            limparCampos();
         } else {
             showWarning("Por favor, selecione uma banda na tabela primeiro!");
         }
@@ -153,10 +129,9 @@ public class MainController {
 
         if (bandaSelecionada != null) {
             BandaDAO objDAO = new BandaDAO();
-            objDAO.removerBanda(bandaSelecionada.getId()); // Passa o ID local
+            objDAO.removerBanda(bandaSelecionada.getId());
 
             showConfirmation("Deseja remover essa banda?");
-
             showInformation("Banda removida com sucesso!");
 
             carregarBandas();
@@ -178,8 +153,6 @@ public class MainController {
             txtDataFormacao.setText(objDTO.getDataFormacao().format(formatoBr));
 
             txtCidadeOrigem.setText(objDTO.getCidadeOrigem());
-
-            validarCampos();
         }
     }
 
@@ -190,13 +163,10 @@ public class MainController {
         txtGenero.clear();
         txtDataFormacao.clear();
         txtCidadeOrigem.clear();
-
-        validarCampos();
     }
 
     @FXML
-    private void btnLimparAction(ActionEvent event){
+    private void btnLimparAction(ActionEvent event) {
         limparCampos();
     }
-
 }
