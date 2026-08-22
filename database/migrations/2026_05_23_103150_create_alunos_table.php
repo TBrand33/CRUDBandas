@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nome');
             $table->string('celular');
             $table->string('imagem')->nullable();
-            $table->foreign('id_curso')->references('id')->on('cursos');
+            $table->foreignId('id_curso')->references('id')->on('cursos');
             $table->timestamps();
         });
     }

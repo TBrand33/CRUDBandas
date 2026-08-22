@@ -17,6 +17,7 @@
             <ul class="right hide-on-med-and-down">
                 <li><a href="/">Home</a></li>
                 <li><a href="/login">Login</a></li>
+                <li><a href="{{ route('auth.google') }}" class="btn btn-google">Entrar com o Google</a></li>
                 <li><a href="{{route('admin.alunos')}}">Alunos</a></li>
                 <li><a href="{{route('admin.cursos')}}">Cursos</a></li>
             </ul>
