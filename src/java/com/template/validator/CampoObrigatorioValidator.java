@@ -24,4 +24,5 @@ public class CampoObrigatorioValidator implements Validator<String> {
     public String getValor() {
         return valor;
     }
+
 }
