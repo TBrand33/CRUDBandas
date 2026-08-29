@@ -16,16 +16,24 @@
             <a href="#" data-target="mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
                 <li><a href="/">Home</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="{{ route('auth.google') }}" class="btn btn-google">Entrar com o Google</a></li>
-                <li><a href="{{route('admin.alunos')}}">Alunos</a></li>
+                @if(Auth::guest()) 
+                <li><a href="{{route('login')}}">Login</a></li>
+                @else // se o teste no método ‘entrar’ do controller retornou true ...
                 <li><a href="{{route('admin.cursos')}}">Cursos</a></li>
+                <li><a href="#">{{Auth::user()->name}}</a></li>
+                <li><a href="{{ route('login.sair') }}">Sair</a></li>
+                @endif
             </ul>
             </div>
         </nav>
-
         <ul class="sidenav" id="mobile">
              <li><a href="/">Home</a></li>
-            <li><a href="/login">Login</a></li>
+                @if(Auth::guest()) 
+                <li><a href="{{route('login')}}">Login</a></li>
+                @else // se o teste no método ‘entrar’ do controller retornou true ...
+                <li><a href="{{route('admin.cursos')}}">Cursos</a></li>
+                <li><a href="#">{{Auth::user()->name}}</a></li>
+                <li><a href="{{ route('login.sair') }}">Sair</a></li>
+                @endif
         </ul>
 </html>

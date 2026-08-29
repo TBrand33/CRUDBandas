@@ -2,10 +2,22 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\loginController;
+use App\Http\Controllers\Admin\AlunoController;
+use App\Http\Controllers\Admin\CursoController;
 
     Route::get('/', function () {
     return redirect()->route('admin.cursos');
     });
+
+    Route::get('/login', ['as' => 'login',
+        'uses'=>'App\Http\Controllers\loginController@index']);
+
+    Route::post('/login/entrar',['as'=>'login.entrar',
+        'uses'=>'App\Http\Controllers\loginController@entrar']);
+
+    Route::get('/login/sair',['as'=>'login.sair',
+        'uses'=>'App\Http\Controllers\loginController@sair']);
     /*
     Route::get('/',
     ['as'=>'home','uses'=>'App\Http\Controllers\homeController@index']);
