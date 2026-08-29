@@ -29,7 +29,7 @@ class GoogleController extends Controller{
                 $user = User::create([
                 'name' => $googleUser->getName(),
                 'email' => $googleUser->getEmail(),
-                'password' => bcrypt(str_random(16)),
+                'password' => bcrypt(\Illuminate\Support\Str::random(16)),
                 // Senha aleatória fictícia
                 ]);
             }

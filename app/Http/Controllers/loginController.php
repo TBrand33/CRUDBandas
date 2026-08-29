@@ -13,13 +13,13 @@ class loginController extends Controller
     public function entrar(Request $req) {
         $dados = $req->all();
         if ( Auth::attempt( [ 'email' => $dados['email'], 'password' => $dados['senha'] ] ) ) {
-            return redirect()->route('home'); // redireciona para a home, mas agora, logado !
+            return redirect()->route('admin.cursos'); // redireciona para admin.cursos
         } else { // pede usuario e senha novamente
             return redirect()->route('login');
         }
     }
     public function sair() {
         Auth::logout();
-        return redirect()->route('home');
+        return redirect()->route('login');
     }
 }
