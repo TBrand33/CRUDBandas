@@ -3,6 +3,7 @@ package com.template.controller;
 import com.template.model.dto.BandaDTO;
 import com.template.service.BandaService;
 import com.template.service.DataService;
+import com.template.service.IBandaService;
 import com.template.util.ClearUtil;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -17,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import static com.template.util.DialogUtil.*;
 
 public class MainController {
+    private final IBandaService bandaService;
 
     @FXML private TextField txtNome;
     @FXML private TextField txtGenero;
@@ -35,8 +37,9 @@ public class MainController {
     @FXML private TableColumn<BandaDTO, String> colDataFormacao;
     @FXML private TableColumn<BandaDTO, String> colCidadeOrigem;
 
-    // Instância do serviço que lidará com a regra de negócio
-    private final BandaService bandaService = new BandaService();
+    public MainController(IBandaService bandaService ) {
+        this.bandaService = bandaService;
+    }
 
     @FXML
     public void initialize() {
@@ -68,18 +71,15 @@ public class MainController {
 
     @FXML
     private void btnCadastrarAction(ActionEvent event) {
-        boolean sucesso = bandaService.cadastrar(
+        bandaService.cadastrar(
                 txtNome.getText(),
                 txtGenero.getText(),
                 txtDataFormacao.getText(),
                 txtCidadeOrigem.getText()
         );
-
-        if (sucesso) {
             showInformation("Banda cadastrada com sucesso!");
             atualizarTabela();
             btnLimparAction(null);
-        }
     }
 
     @FXML
@@ -87,19 +87,16 @@ public class MainController {
         BandaDTO bandaSelecionada = tblBandas.getSelectionModel().getSelectedItem();
 
         if (bandaSelecionada != null) {
-            boolean sucesso = bandaService.editar(
+            bandaService.editar(
                     bandaSelecionada.getId(),
                     txtNome.getText(),
                     txtGenero.getText(),
                     txtDataFormacao.getText(),
                     txtCidadeOrigem.getText()
             );
-
-            if (sucesso) {
                 showInformation("Banda atualizada com sucesso!");
                 atualizarTabela();
                 btnLimparAction(null);
-            }
         } else {
             showWarning("Por favor, selecione uma banda na tabela primeiro!");
         }
@@ -124,12 +121,10 @@ public class MainController {
     @FXML
     private void carregarCampos() {
         BandaDTO bandaSelecionada = tblBandas.getSelectionModel().getSelectedItem();
-
         if (bandaSelecionada != null) {
             txtNome.setText(bandaSelecionada.getNome());
             txtGenero.setText(bandaSelecionada.getGenero());
             txtCidadeOrigem.setText(bandaSelecionada.getCidadeOrigem());
-
             // Usando o DataService para jogar a data formatada na tela
             txtDataFormacao.setText(DataService.formatarParaBR(bandaSelecionada.getDataFormacao()));
         }
@@ -137,7 +132,7 @@ public class MainController {
 
     @FXML
     private void btnLimparAction(ActionEvent event) {
-        // Delega a responsabilidade de limpar tudo para a classe utilitária
+        // Delega a responsabilidade de limpar tudo para a classe
         ClearUtil.limparCampos(tblBandas, txtNome, txtGenero, txtDataFormacao, txtCidadeOrigem);
     }
 }

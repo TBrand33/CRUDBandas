@@ -5,7 +5,7 @@ import java.util.List;
 import static com.template.util.DialogUtil.showWarning;
 
 
-public class BandaValidator {
+public class BandaValidator implements IBandaValidator{
 
     public static boolean validarBandas(String nome, String genero, String data, String cidadeOrigem) {
         List<Validator<String>> validadores = new ArrayList<>();
@@ -25,5 +25,30 @@ public class BandaValidator {
         }
 
         return true;
+    }
+
+    @Override
+    public Boolean validarBanda(String nome, String genero, String dataFormacao, String cidadeOrigem) {
+        return null;
+    }
+
+    @Override
+    public Boolean ValidarNome(String nome) {
+        return null;
+    }
+
+    @Override
+    public Boolean ValidarGenero(String genero) {
+        return null;
+    }
+
+    @Override
+    public Boolean ValidarDataFormacao(String dataFormacao) {
+        return null;
+    }
+
+    @Override
+    public Boolean ValidarCidadeOrigem(String cidadeOrigem) {
+        return null;
     }
 }

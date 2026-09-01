@@ -3,15 +3,16 @@ package com.template.service;
 import com.template.model.dao.BandaDAO;
 import com.template.model.dto.BandaDTO;
 import com.template.validator.BandaValidator;
-import java.util.List;
 
-public class BandaService {
+import java.util.ArrayList;
+
+public class BandaService implements  IBandaService{
 
     private final BandaDAO bandaDAO = new BandaDAO();
 
-    public boolean cadastrar(String nome, String genero, String data, String cidadeOrigem) {
+    public void cadastrar(String nome, String genero, String data, String cidadeOrigem) {
         if (!BandaValidator.validarBandas(nome, genero, data, cidadeOrigem)) {
-            return false;
+            return ;
         }
 
         BandaDTO dto = new BandaDTO(
@@ -22,12 +23,12 @@ public class BandaService {
         );
 
         bandaDAO.cadastrarBanda(dto);
-        return true;
+        return ;
     }
 
-    public boolean editar(int id, String nome, String genero, String data, String cidadeOrigem) {
+    public void editar(int id, String nome, String genero, String data, String cidadeOrigem) {
         if (!BandaValidator.validarBandas(nome, genero, data, cidadeOrigem)) {
-            return false;
+            return ;
         }
 
         BandaDTO dto = new BandaDTO(
@@ -39,14 +40,14 @@ public class BandaService {
         );
 
         bandaDAO.atualizarBanda(dto);
-        return true;
+        return;
     }
 
     public void excluir(int id) {
         bandaDAO.removerBanda(id);
     }
 
-    public List<BandaDTO> listarTodas() {
+    public ArrayList<BandaDTO> listarTodas() {
         return bandaDAO.listarBandas();
     }
 }
